@@ -85,9 +85,9 @@ def transform(data_dict):
     
     # Merge top category back to customer summary
     customer_summary = customer_summary.merge(top_category, on='customer_id', how='left')
-
     # order of columns
-    customer_summary = customer_summary.merge(customers[['customer_id', 'customer_name', 'city']], on='customer_id')
+    customer_summary = customer_summary[['customer_id', 'customer_name', 'city', 'total_orders', 'total_revenue', 'avg_order_value', 'top_category']]
+    
     return customer_summary
 
 
@@ -142,7 +142,7 @@ def load(df, engine, csv_path):
 def main():
     """Orchestrate the ETL pipeline: extract -> transform -> validate -> load."""
     # TODO: Implement main orchestration
-    DB_URL = os.getenv("DATABASE_URL", "postgresql://postgres:password@localhost:5432/amman_market")
+    DB_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/amman_market")
     # 1. Create engine from DATABASE_URL env var (or default)
     engine = create_engine(DB_URL)
     CSV_PATH = "output/customer_analytics.csv"
